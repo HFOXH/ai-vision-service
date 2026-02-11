@@ -22,13 +22,6 @@ Built with:
 
 ---
 
-## 📂 Project Structure
-
-```
-frontend/   → Next.js app  
-backend/    → FastAPI API service  
-```
-
 ---
 
 ## ⚙️ Requirements
@@ -142,6 +135,12 @@ usage_tracker = {}
 
 - File size limit: **5MB**
 - Supported formats: JPG, JPEG, PNG, WEBP
+
+---
+
+## Demo
+
+[Link](https://ai-vision-service.vercel.app/)
 
 ---
 
