@@ -43,7 +43,7 @@ export default function AnalyzePage() {
     async function loadUsage() {
       try {
         const token = await getToken();
-        const res = await fetch("http://127.0.0.1:8000/api/usage", {
+        const res = await fetch("/api/usage", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -81,7 +81,7 @@ export default function AnalyzePage() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("http://127.0.0.1:8000/api/analyze", {
+      const res = await fetch("/api/analyze", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -100,7 +100,7 @@ export default function AnalyzePage() {
       setResult(json.description);
 
       // Refresh usage
-      const usageRes = await fetch("http://127.0.0.1:8000/api/usage", {
+      const usageRes = await fetch("/api/usage", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
