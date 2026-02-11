@@ -138,6 +138,12 @@ usage_tracker = {}
 
 ---
 
+## Demo
+
+[Link](https://ai-vision-service.vercel.app/)
+
+---
+
 ## 👨‍🎓 Academic Project
 
 Built by:  
