@@ -22,13 +22,6 @@ Built with:
 
 ---
 
-## 📂 Project Structure
-
-```
-frontend/   → Next.js app  
-backend/    → FastAPI API service  
-```
-
 ---
 
 ## ⚙️ Requirements
