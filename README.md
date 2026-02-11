@@ -1,40 +1,160 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# AI Vision Analyzer
 
-## Getting Started
+AI Vision Analyzer is a full-stack application that allows users to upload images and receive detailed AI-powered descriptions using OpenAI's GPT-4o-mini Vision model.
 
-First, run the development server:
+Built with:
+
+- **Next.js + TailwindCSS** (Frontend)
+- **FastAPI** (Backend API)
+- **Clerk Authentication**
+- **OpenAI API**
+
+---
+
+## 🚀 Features
+
+- Secure authentication with Clerk
+- Upload and preview images instantly
+- AI-generated descriptions (objects, mood, colors, composition)
+- Free tier limit (1 analysis)
+- Premium tier with unlimited usage
+- Beautiful modern UI
+
+---
+
+## 📂 Project Structure
+
+```
+frontend/   → Next.js app  
+backend/    → FastAPI API service  
+```
+
+---
+
+## ⚙️ Requirements
+
+Backend dependencies:
+
+```
+fastapi
+uvicorn
+openai
+python-multipart
+fastapi-clerk-auth
+python-dotenv
+```
+
+---
+
+## 🔑 Environment Variables
+
+Create a `.env` file inside the backend folder:
+
+```env
+OPENAI_API_KEY=your_openai_api_key
+CLERK_JWKS_URL=https://your-clerk-domain/.well-known/jwks.json
+```
+
+---
+
+## ▶️ Running the Backend (FastAPI)
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the API server for development mode:
+
+```bash
+uvicorn main:app --reload --port 8000
+```
+
+API will be available at:
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+## ▶️ Running the Frontend (Next.js)
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Frontend will run at:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+---
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## 🔍 API Endpoints
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Method | Endpoint        | Description |
+|--------|----------------|-------------|
+| GET    | `/api/health`  | Health check |
+| GET    | `/api/usage`   | Usage + tier info |
+| POST   | `/api/analyze` | Upload + analyze image |
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🧠 AI Vision Analysis
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+The backend sends the uploaded image as Base64 and uses:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```python
+model="gpt-4o-mini"
+```
 
-## Deploy on Vercel
+Prompt:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> Describe this image in detail, including objects, colors, mood, and notable features.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+---
+
+## 💎 Subscription Logic
+
+- Free users: **1 analysis**
+- Premium users: **Unlimited**
+
+Usage tracked in-memory:
+
+```python
+usage_tracker = {}
+```
+
+---
+
+## 📌 Notes
+
+- File size limit: **5MB**
+- Supported formats: JPG, JPEG, PNG, WEBP
+
+---
+
+## 👨‍🎓 Academic Project
+
+Built by:  
+Santiago Cardenas  
+
+Built for:
+**AIE1018 - Cambrian College**  
+© 2026 AI Vision Analyzer
+
+---
+
+Powered by OpenAI + Clerk + FastAPI + Next.js
+
