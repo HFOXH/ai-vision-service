@@ -1,7 +1,6 @@
 from fastapi import FastAPI, UploadFile, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials
-from mangum import Mangum
 
 from fastapi_clerk_auth import ClerkConfig, ClerkHTTPBearer
 
@@ -129,5 +128,3 @@ async def analyze_image(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"OpenAI Vision API error: {str(e)}")
-    
-handler = Mangum(app)
