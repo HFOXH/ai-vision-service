@@ -15,21 +15,6 @@ export default function AnalyzePage() {
   const [loading, setLoading] = useState(false);
   const [usage, setUsage] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-
-  // Theme management
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' || 'light';
-    setTheme(savedTheme);
-    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
-  };
 
   // Redirect if not signed in
   useEffect(() => {
@@ -43,7 +28,7 @@ export default function AnalyzePage() {
     async function loadUsage() {
       try {
         const token = await getToken();
-        const res = await fetch("/api/usage", {
+        const res = await fetch("https://ai-vision-api.onrender.com/usage", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -81,7 +66,7 @@ export default function AnalyzePage() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("/api/analyze", {
+      const res = await fetch("https://ai-vision-api.onrender.com/analyze", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -100,7 +85,7 @@ export default function AnalyzePage() {
       setResult(json.description);
 
       // Refresh usage
-      const usageRes = await fetch("/api/usage", {
+      const usageRes = await fetch("https://ai-vision-api.onrender.com/usage", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -114,13 +99,13 @@ export default function AnalyzePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-white to-purple-50 dark:from-gray-900 dark:via-black dark:to-purple-950">
+    <div className="min-h-screen bg-linear-to-br from-violet-50 via-white to-purple-50 dark:from-gray-900 dark:via-black dark:to-purple-950">
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <span className="text-xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-linear-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
                 AI Vision Analyzer
               </span>
             </Link>
@@ -133,7 +118,7 @@ export default function AnalyzePage() {
         {/* Page Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
               Image Analysis
             </span>
           </h1>
@@ -147,7 +132,7 @@ export default function AnalyzePage() {
           <div className="mb-8 bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-800 p-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-violet-600 to-purple-600 rounded-xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-linear-to-br from-violet-600 to-purple-600 rounded-xl flex items-center justify-center">
                   <span className="text-2xl">
                     {usage.tier === "premium" ? "🚀" : "🆓"}
                   </span>
@@ -161,7 +146,7 @@ export default function AnalyzePage() {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-fuchsia-600 to-pink-600 rounded-xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-linear-to-br from-fuchsia-600 to-pink-600 rounded-xl flex items-center justify-center">
                   <span className="text-2xl">📊</span>
                 </div>
                 <div>
@@ -180,7 +165,7 @@ export default function AnalyzePage() {
         {/* Upload Section */}
         <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 p-8 mb-8">
           <div className="flex items-start gap-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-br from-violet-600 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 bg-linear-to-br from-violet-600 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
               <span className="text-xl">📤</span>
             </div>
             <div>
@@ -204,7 +189,7 @@ export default function AnalyzePage() {
                   className="hidden"
                 />
                 <div className="flex flex-col items-center gap-3">
-                  <div className="w-16 h-16 bg-gradient-to-br from-violet-100 to-purple-100 dark:from-violet-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center">
+                  <div className="w-16 h-16 bg-linear-to-br from-violet-100 to-purple-100 dark:from-violet-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center">
                     <span className="text-3xl">🖼️</span>
                   </div>
                   <div>
@@ -240,7 +225,7 @@ export default function AnalyzePage() {
           <button
             onClick={handleAnalyze}
             disabled={!file || loading}
-            className="cursor-pointer w-full py-4 rounded-xl font-semibold text-lg bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:shadow-2xl hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+            className="cursor-pointer w-full py-4 rounded-xl font-semibold text-lg bg-linear-to-r from-violet-600 to-purple-600 text-white hover:shadow-2xl hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -278,9 +263,9 @@ export default function AnalyzePage() {
 
         {/* Result Card */}
         {result && (
-          <div className="mb-8 bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/30 rounded-2xl shadow-xl border-2 border-violet-200 dark:border-violet-800 p-8">
+          <div className="mb-8 bg-linear-to-br from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/30 rounded-2xl shadow-xl border-2 border-violet-200 dark:border-violet-800 p-8">
             <div className="flex items-start gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-violet-600 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-linear-to-br from-violet-600 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
                 <span className="text-xl">✨</span>
               </div>
               <div>
@@ -313,7 +298,7 @@ export default function AnalyzePage() {
               <p className="text-amber-700 dark:text-amber-300 mb-4">
                 You've used your free analysis. Upgrade to Premium for unlimited access and advanced features!
               </p>
-              <button className="px-6 py-2 bg-gradient-to-r from-violet-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all">
+              <button className="px-6 py-2 bg-linear-to-r from-violet-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all">
                 Upgrade to Premium 🚀
               </button>
             </div>
