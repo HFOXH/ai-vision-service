@@ -50,14 +50,22 @@ def check_and_increment_usage(user_id: str, tier: str) -> bool:
 ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 
-@app.get("/health")
+@app.get("/")
+def root():
+    return {
+        "status": "API is running",
+        "service": "AI Vision Service",
+        "routes": ["/api/health", "/api/usage", "/api/analyze"]
+    }
+
+@app.get("/api/health")
 def health_check():
     return {
         "status": "healthy",
         "service": "AI Vision Service"
     }
 
-@app.get("/usage")
+@app.get("/api/usage")
 def check_usage(creds: HTTPAuthorizationCredentials = Depends(clerk_guard)):
     user_id = creds.decoded["sub"]
 
@@ -73,7 +81,7 @@ def check_usage(creds: HTTPAuthorizationCredentials = Depends(clerk_guard)):
         "limit": "unlimited" if tier == "premium_subscription" else 1
     }
 
-@app.post("/analyze")
+@app.post("/api/analyze")
 async def analyze_image(
     file: UploadFile,
     creds: HTTPAuthorizationCredentials = Depends(clerk_guard)
