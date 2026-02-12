@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials
+from mangum import Mangum
 
 from fastapi_clerk_auth import ClerkConfig, ClerkHTTPBearer
 
@@ -13,17 +14,11 @@ import os
 import base64
 import pathlib
 
-
-# Define los orígenes permitidos
-origins = [
-    "*",  # Next.js dev
-]
-
 app = FastAPI()
-# Agrega el middleware CORS
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -134,3 +129,5 @@ async def analyze_image(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"OpenAI Vision API error: {str(e)}")
+    
+handler = Mangum(app)
