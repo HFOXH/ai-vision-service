@@ -50,7 +50,7 @@ def check_and_increment_usage(user_id: str, tier: str) -> bool:
 ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 
-@app.get("/api")
+@app.get("/")
 def root():
     return {
         "status": "API is running",
