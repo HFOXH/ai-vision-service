@@ -1,7 +1,50 @@
+from fastapi import FastAPI, UploadFile, HTTPException, Depends
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPAuthorizationCredentials
+
+from fastapi_clerk_auth import ClerkConfig, ClerkHTTPBearer
+
+from openai import OpenAI
+
+from dotenv import load_dotenv
+load_dotenv() 
+
+import os
+import base64
+import pathlib
 from fastapi import FastAPI
-from mangum import Mangum
 
 app = FastAPI()
+
+
+clerk_config = ClerkConfig(jwks_url=os.getenv("CLERK_JWKS_URL"))
+clerk_guard = ClerkHTTPBearer(clerk_config)
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# -----------------------------
+# Usage Tracker (In-memory)
+# -----------------------------
+
+usage_tracker = {}
+
+def check_and_increment_usage(user_id: str, tier: str) -> bool:
+    """Returns True if user can proceed, False if limit exceeded"""
+
+    if tier == "premium_subscription":
+        return True
+    current = usage_tracker.get(user_id, 0)
+    if current >= 1:
+        return False
+    usage_tracker[user_id] = current + 1
+    return True
+
+ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
+MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
+
+@app.get("/")
+def root():
+    return {"message": "FastAPI running"}
 
 @app.get("/api/health")
 def health_check():
