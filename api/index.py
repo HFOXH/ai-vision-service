@@ -50,14 +50,6 @@ def check_and_increment_usage(user_id: str, tier: str) -> bool:
 ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 
-@app.get("/")
-def root():
-    return {
-        "status": "API is running",
-        "service": "AI Vision Service",
-        "routes": ["/api/health", "/api/usage", "/api/analyze"]
-    }
-
 @app.get("/api/health")
 def health_check():
     return {
