@@ -69,7 +69,7 @@ def check_usage(creds: HTTPAuthorizationCredentials = Depends(clerk_guard)):
         "limit": "unlimited" if tier == "premium_subscription" else 1
     }
 
-@app.post("/api/analyze")
+@app.post("/analyze")
 async def analyze_image(
     file: UploadFile,
     creds: HTTPAuthorizationCredentials = Depends(clerk_guard)
